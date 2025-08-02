@@ -1,0 +1,306 @@
+---
+title: "Spatial Patterns of Electric Vehicle<br>Accessibility in the United States"
+author: "John Paul Helveston, Zain Hoda, Daniel Fisher, & Lujin Zhao"
+date: August 06, 2025
+institute: "The George Washington University | Dept. of Engineering Management and Systems Engineering"
+output:
+  xaringan::moon_reader:
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    seal: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(fontawesome)
+library(tidyverse)
+library(metathis)
+library(kableExtra)
+library(here)
+
+options(
+    htmltools.dir.version = FALSE,
+    knitr.table.format = "html",
+    knitr.kable.NA = '',
+    dplyr.width = Inf,
+    width = 250
+)
+knitr::opts_chunk$set(
+    warning = FALSE,
+    message = FALSE,
+    fig.path = "figs/",
+    fig.width = 7.252,
+    fig.height = 4,
+    comment = "#>",
+    fig.retina = 3
+)
+
+# Setup xaringanExtra options
+xaringanExtra::use_xaringan_extra(c(
+  "tile_view", "panelset", "share_again"))
+xaringanExtra::style_share_again(share_buttons = "none")
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,
+  mute_unhighlighted_code = FALSE
+)
+
+# Set up website metadata
+meta() %>%
+  meta_general(
+    description = rmarkdown::metadata$subtitle,
+    generator = "xaringan and remark.js"
+  ) %>%
+  meta_name("github-repo" = "jhelvy/2025-btr7-ev-spatial") %>%
+  meta_social(
+    title = rmarkdown::metadata$title,
+    url = "https://jhelvy.com/slides",
+    og_type = "website",
+    og_author = "John Paul Helveston",
+    twitter_card_type = "summary_large_image",
+    twitter_creator = "@johnhelveston"
+  )
+
+# Vehicle listings summary table
+summary_dt_raw <- read_csv(here('data', 'listings_summary.csv'))
+total_listings <- sum(summary_dt_raw$n) / 10^6
+summary_dt <- summary_dt_raw %>% 
+    mutate(
+        n = scales::comma(n), 
+        vehicle_type = ifelse(vehicle_type == 'car', 'Car', 'SUV')
+    ) %>% 
+    pivot_wider(
+        names_from = powertrain,
+        values_from = n
+    ) %>% 
+    select(
+        Type = vehicle_type,
+        Conventional = conventional, 
+        Hybrid = hev, 
+        PHEV = phev, 
+        BEV = bev, 
+        inventory_type
+    ) %>% 
+    mutate(PHEV = ifelse(is.na(PHEV), 0, PHEV)) %>% 
+    rename(CV = Conventional, HEV = Hybrid)
+```
+
+background-image: url("images/blue.jpg")
+background-size: cover
+class: inverse
+
+<br><br><br><br>
+
+## `r rmarkdown::metadata$title`
+
+**.white[John Paul Helveston]**, George Washington University<br>
+Lujin Zhao, George Washington University<br>
+Michael Mann, George Washington University<br>
+
+`r rmarkdown::metadata$date`
+
+---
+
+class: middle, center
+
+## Addressing the **“innovation-needs paradox”**:
+
+## The people most likely to benefit from a technology<br>are often the last ones to adopt it.
+
+---
+
+class: center
+background-color: #fff
+
+### .center[**Data**: `r round(total_listings, 1)`M vehicle listings from ~60k dealerships (marketcheck.com)<br>(2016 - 2024, inclusive)]
+
+#### New Vehicles
+
+```{r}
+#| echo: false
+
+summary_dt %>%
+    filter(inventory_type == 'new') %>% 
+    select(-inventory_type) %>% 
+    kbl() 
+```
+
+#### Used Vehicles
+
+```{r}
+#| echo: false
+
+summary_dt %>%
+    filter(inventory_type == 'used') %>% 
+    select(-inventory_type) %>% 
+    kbl() 
+```
+
+---
+
+class: inverse, middle, center
+
+# How many dealerships are carrying PEVs?
+
+---
+
+class: center
+
+## **4/5** dealers have a _new_ BEV<br>**2/5** dealers have a _used_ BEV
+
+<center>
+<img src="images/pev-percent-dealers.png" width=90%>
+</center>
+
+---
+
+class: center, middle
+
+## **New** BEV availability growing faster than **Used**
+
+<center>
+<img src="images/zev_plot_new_used.png" width=950>
+</center>
+
+---
+
+.leftcol55[
+
+<center>
+<img src="images/state_bev_percent.png" width=100%>
+</center>
+
+]
+
+.rightcol45[.font120[
+
+- BEV inventories still low at most dealerships
+- Something of a "ZEV Effect" in new market
+- Used market more diffuse
+
+]]
+
+
+---
+
+class: inverse, middle, center
+
+# How hard is it to get to a BEV dealer?
+
+---
+
+background-color: #fff
+
+## “Access burden”: additional travel time to see a BEV
+
+.leftcol[
+
+#### Access burden:
+
+1. Find closest CV and BEV dealerships from census tract centroid. 
+2. Compute road travel time* to each dealership: $t_{\mathrm{PEV}}$ and $t_{\mathrm{CV}}$
+3. Compute “Burden” as difference in travel time: $b = t_{\mathrm{PEV}} - t_{\mathrm{CV}}$
+
+<br>
+
+*Road travel times obtained using<br>Open Street Road Map (OSRM)
+
+]
+
+.rightcol[.border[
+
+<center>
+<img src="images/tract-diagram.png" width=100%>
+</center>
+
+]]
+
+---
+
+class: center
+background-image: url('images/travel_burden_map.png')
+background-size: contain
+
+### BEV access burden has improved over time, but large gaps remain
+
+---
+
+class: center, middle
+
+.leftcol70[
+
+<center>
+<img src="images/box_plot.png" width=100%>
+</center>
+
+]
+
+.rightcol30[
+
+### Nationally, BEV travel burden is declining, both in magnitude and variation.
+
+]
+
+---
+
+class: center, middle
+
+.leftcol70[
+
+<center>
+<img src="images/median_region.png" width=100%>
+</center>
+
+]
+
+.rightcol30[
+
+### Largest disparities in BEV travel burden is in **rural** areas, but this is rapidly improving
+
+]
+
+---
+
+.leftcol60[
+
+<center>
+<img src="images/pop_cfp.png" width=100%>
+</center>
+
+]
+
+.rightcol40[
+
+### BEV travel burden still high for **affordable** BEVs in rural areas
+
+]
+
+---
+
+class: inverse 
+background-image: url("images/blue.jpg")
+background-size: cover
+
+<br><br><br><br><br><br><br><br><br><br>
+
+# Thanks!
+
+### Slides:
+
+### https://slides.jhelvy.com/2025-btr7-ev-spatial/
+
+.footer-large[.white[.right[
+
+@jhelvy.bsky.social `r fa(name = "bluesky", fill = "white")`<br>
+@jhelvy `r fa(name = "github", fill = "white")`<br>
+jhelvy.com `r fa(name = "link", fill = "white")`<br>
+jph@gwu.edu `r fa(name = "paper-plane", fill = "white")`
+
+]]]
