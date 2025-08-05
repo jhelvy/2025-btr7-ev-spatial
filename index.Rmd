@@ -216,7 +216,7 @@ class: middle
 80% of pop:
 
 - CV in ~12 min
-- PEV in ~20 min (2024)
+- PEV in ~22 min (2024)
 - PEV in ~60 min (2016)
 
 ]
@@ -266,6 +266,73 @@ background-color: #fff
 
 ---
 
+class: middle, center
+background-color: #fff
+
+## **Key Finding**: EV accessibility is spatially concentrated
+
+### Transportation electrification will be **geographically clustered** rather than evenly distributed
+
+<center><img src="images/urban-vs-rural.png" width=60%></center>
+
+---
+
+## .center[Grid planning must account for<br>**uneven adoption patterns**]
+
+.center[Leveraging vehicle _listings_ can be useful for high-resolution planning]
+
+.leftcol[
+
+.center[**Concentrated demand**]
+
+- Urban, higher-income areas
+- Requires targeted grid investments
+- Peak demand challenges
+
+]
+
+.rightcol[
+
+.center[**Missed opportunities**]
+
+- Rural wind resources underutilized
+- Limited distributed load balancing
+- Reduced renewable integration potential
+
+]
+
+---
+
+## .center[**Affordability gap** limits mass-market electrification]
+
+### - Only **1.3%** of new vehicles under $40k are EVs
+### - **94%** of used market is under $40k with minimal EV options
+
+<center><img src="images/used-new-evs.png" width=65%></center>
+
+---
+
+## .center[**Dealerships matter** for the energy transition]
+
+### - Direct experience increases willingness to adopt<br>.gray[(Roberson & Helveston, 2020; Agrawal et al., 2022)]
+### - Geographic barriers limit consumer exposure
+
+.leftcol55[
+
+- 60+ minute travel penalties in rural areas
+- Abundant conventional options nearby
+- Limited EV education opportunities
+
+]
+
+.rightcol45[
+
+<center><img src="images/road.png" width=100%></center>
+
+]
+
+---
+
 class: inverse 
 background-image: url("images/blue.jpg")
 background-size: cover
@@ -286,3 +353,37 @@ jhelvy.com `r fa(name = "link", fill = "white")`<br>
 jph@gwu.edu `r fa(name = "paper-plane", fill = "white")`
 
 ]]]
+
+---
+
+class: inverse, middle, center
+
+# Extra Slides
+
+---
+
+## .center[**Policy coordination** needed for equitable transition]
+
+<br>
+
+### .center[Current patterns reinforce existing inequalities]
+
+.leftcol[
+
+.center[**Expand access**]
+
+- Direct-to-consumer sales
+- Rural dealership incentives
+- Charging infrastructure investment
+
+]
+
+.rightcol[
+
+.center[**System benefits**]
+
+- More distributed demand
+- Better renewable integration
+- Grid stability support
+
+]
